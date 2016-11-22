@@ -1,4 +1,4 @@
-__Swiss-style-Tournament__
+# Swiss-style-Tournament
 
 This project is a swiss-style tournament. It uses a PostgreSQL database and Python code to keep track of the players and matches. In the Swiss-style each player is matched with another player of equal matches, or as close as possible. 
 
