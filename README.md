@@ -3,7 +3,7 @@
 This project is a swiss-style tournament. It uses a PostgreSQL database and Python code to keep track of the players and matches. In the Swiss-style each player is matched with another player of equal matches, or as close as possible. 
 
 
-Here is an article that goes more in depth about the Swiss-style tournament: https://en.wikipedia.org/wiki/Swiss-system_tournament
+[Here] is an article that goes more in depth about the Swiss-style tournament: (https://en.wikipedia.org/wiki/Swiss-system_tournament)
 
 
 ## Installation:
