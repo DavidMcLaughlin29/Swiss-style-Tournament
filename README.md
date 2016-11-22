@@ -31,6 +31,7 @@ This project is a swiss-style tournament. It uses a PostgreSQL database and Pyth
 
 
 If the test passes this will be the output:
+![alt text](Swiss_style-Tournament/Test_output.png)
 
 
 
