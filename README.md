@@ -7,10 +7,10 @@ Here is an article that goes more in depth about the Swiss-style tournament: htt
 
 
 Installation:
-*Install Vagrant
-*Install VirtualBox
-*Install Git
-*Clone the full-stack-nanodegree-vm repository
+* Install Vagrant
+* Install VirtualBox
+* Install Git
+* Clone the full-stack-nanodegree-vm repository
 
 
 The files:
