@@ -30,7 +30,7 @@ This project is a swiss-style tournament. It uses a PostgreSQL database and Pyth
 * To test the code, log out of PSQL, cd back to the vagrant/tournament, and run “python tournament_test.py”.
 
 
-If the test passes this will be the output:
+If everything works properly this will be the output:
 
 
 ![alt text](https://github.com/DavidMcLaughlin29/Swiss_style-Tournament/blob/master/Test_output.png)
