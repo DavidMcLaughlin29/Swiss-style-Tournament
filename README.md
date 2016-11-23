@@ -35,5 +35,8 @@ If everything works properly this will be the output:
 
 ![alt text](https://github.com/DavidMcLaughlin29/Swiss_style-Tournament/blob/master/Test_output.png)
 
+## License
+This project is licensed the MIT License.
 
-
+## Acknowledgements
+Roman Levitas and the Udacity Team.
