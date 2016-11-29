@@ -27,7 +27,7 @@ This project is a swiss-style tournament. It uses a PostgreSQL database and Pyth
 * Change directory to vagrant using the “cd /vagrant” command.
 * Enter PostgreSQL database with the “psql” command.
 * Import tournament database by entering “\i tournament.sql”.
-* To test the code, log out of PSQL, cd back to the vagrant/tournament, and run “python tournament_test.py”.
+* To test the code, log out of PSQL, cd back to vagrant/tournament, and run “python tournament_test.py”.
 
 
 If everything works properly this will be the output:
