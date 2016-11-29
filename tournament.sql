@@ -12,17 +12,24 @@ CREATE DATABASE tournament;
 
 CREATE TABLE players (
 	id serial PRIMARY KEY NOT NULL,
-	Name text,
-	num_wins integer DEFAULT 0,
-	num_matches int DEFAULT 0
+	Name text
+	
 );
 
 CREATE TABLE matches (
 	match_id serial PRIMARY KEY NOT NULL,
-	winner int,
-	loser int 
-
+	winner int REFERENCES players(id),
+	loser int REFERENCES players(id),
+	total_matches int REFERENCES players(id)
 );
 
-CREATE VIEW wins_sorted_view AS SELECT id , name, num_wins , 
-	num_matches FROM Players ORDER BY num_wins DESC; 
+CREATE VIEW wincounter
+AS
+  SELECT players.id,
+         players.name,
+         COUNT(matches.winner) AS wins,
+         COUNT(matches) AS matches_played
+  FROM   players
+         LEFT JOIN matches
+                ON players.id = matches.winner
+  GROUP BY players.id;
