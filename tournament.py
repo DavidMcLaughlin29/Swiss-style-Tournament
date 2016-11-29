@@ -16,8 +16,6 @@ def deleteMatches():
     conn = connect()
     c = conn.cursor()
     c.execute("DELETE FROM Matches;")
-    c.execute("UPDATE Players SET num_wins = 0;")
-    c.execute("UPDATE Players SET num_matches = 0;")
     conn.commit()
     conn.close()
     
@@ -53,7 +51,7 @@ def registerPlayer(name):
     conn = connect()
     c = conn.cursor()
     c.execute(
-        "INSERT INTO Players (name, num_wins) VALUES ( %s, 0);", (name,))
+        "INSERT INTO Players (name) VALUES (%s);", (name,))
     conn.commit()
     conn.close()
     
@@ -73,15 +71,13 @@ def playerStandings():
     """
     conn = connect()
     c = conn.cursor()
-    c.execute("SELECT COUNT(id) FROM Players;")
-    total = c.fetchone()[0]
-
     num_of_players = countPlayers()
     standings = [None]*num_of_players
 
-    c.execute("SELECT * FROM wins_sorted_view;")
+    c.execute("SELECT * FROM wincounter;")
     winners = c.fetchall()
-
+    
+    conn.commit()
     i = 0
     for player in winners:
         standings[i] = (player[0], player[1], player[2], player[3])
@@ -102,22 +98,17 @@ def reportMatch(winner, loser):
     conn = connect()
     c = conn.cursor()
 
-    query = "INSERT INTO Matches (winner, loser) VALUES (%s, %s);"
-    c.execute(query, ((winner, ), (loser, ), ))
-
     
-    query = "UPDATE Players SET num_wins = num_wins +1 WHERE id = (%s);"
-    c.execute(query, (winner,))
 
-    query = """
-        UPDATE Players SET num_matches = num_matches +1 WHERE id = (%s);
-        """
-    c.execute(query, (winner,))
+    query = "INSERT INTO Matches (winner, loser) VALUES (%s, %s);"
+    c.execute(query, (winner, loser))
 
-    query = """
-        UPDATE Players SET num_matches = num_matches +1 WHERE id = (%s);
-        """
-    c.execute(query, (loser,))
+
+    query = "UPDATE Matches SET total_matches = total_matches +1 WHERE id = %s;"
+    c.execute(query, (winner, ))
+    
+    query = "UPDATE Matches SET total_matches = total_matches +1 WHERE id = %s;"
+    c.execute(query, (loser, ))
 
     conn.commit()
     conn.close()
