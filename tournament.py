@@ -104,10 +104,10 @@ def reportMatch(winner, loser):
     c.execute(query, (winner, loser))
 
 
-    query = "UPDATE Matches SET total_matches = total_matches +1 WHERE id = %s;"
+    query = "UPDATE Matches SET total_matches = total_matches +1 WHERE match_id = %s;"
     c.execute(query, (winner, ))
     
-    query = "UPDATE Matches SET total_matches = total_matches +1 WHERE id = %s;"
+    query = "UPDATE Matches SET total_matches = total_matches +1 WHERE match_id = %s;"
     c.execute(query, (loser, ))
 
     conn.commit()
