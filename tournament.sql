@@ -19,17 +19,7 @@ CREATE TABLE players (
 CREATE TABLE matches (
 	match_id serial PRIMARY KEY NOT NULL,
 	winner int REFERENCES players(id),
-	loser int REFERENCES players(id),
-	total_matches int REFERENCES players(id)
+	loser int REFERENCES players(id)
+	
 );
 
-CREATE VIEW wincounter
-AS
-  SELECT players.id,
-         players.name,
-         COUNT(matches.winner) AS wins,
-         COUNT(matches) AS matches_played
-  FROM   players
-         LEFT JOIN matches
-                ON players.id = matches.winner
-  GROUP BY players.id;
