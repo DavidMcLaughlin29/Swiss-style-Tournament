@@ -4,6 +4,7 @@
 # Credit to Roman Levitas & Udacity Team
 
 import psycopg2
+from operator import itemgetter
 
 
 def connect():
@@ -71,19 +72,23 @@ def playerStandings():
     """
     conn = connect()
     c = conn.cursor()
-    num_of_players = countPlayers()
-    standings = [None]*num_of_players
+    c.execute("SELECT * FROM players")
+    players = c.fetchall()
 
-    c.execute("SELECT * FROM wincounter;")
-    winners = c.fetchall()
-    
-    conn.commit()
+    standings = [None]*len(players)
+
     i = 0
-    for player in winners:
-        standings[i] = (player[0], player[1], player[2], player[3])
+    for player in players:
+        c.execute("SELECT COUNT(*) FROM matches WHERE winner = %s", (player[0],))
+        wins = int(c.fetchone()[0])
+        c.execute("SELECT COUNT(*) FROM matches WHERE winner = %s OR loser = %s", (player[0], player[0]))
+        matches = int(c.fetchone()[0])
+        standings[i] = (player[0], player[1], wins, matches)
         i += 1
-
     conn.close()
+
+    standings = sorted(standings)
+
     return standings
     
 
@@ -97,19 +102,8 @@ def reportMatch(winner, loser):
     """
     conn = connect()
     c = conn.cursor()
-
-    
-
     query = "INSERT INTO Matches (winner, loser) VALUES (%s, %s);"
     c.execute(query, (winner, loser))
-
-
-    query = "UPDATE Matches SET total_matches = total_matches +1 WHERE match_id = %s;"
-    c.execute(query, (winner, ))
-    
-    query = "UPDATE Matches SET total_matches = total_matches +1 WHERE match_id = %s;"
-    c.execute(query, (loser, ))
-
     conn.commit()
     conn.close()
  
@@ -128,18 +122,33 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
-    standings = playerStandings()
-    
-    pairs = [
-        (standings[i-1], standings[i]) for i in range(1, len(standings), 2)]
+    standings = playerStandings() #calls result of playerStandings
 
-    # assume even number of matches/players
-    swissPairs = [None] * (len(standings) / 2)
-
-    i = 0
-    for match in pairs:
-        swissPairs[i] = (match[0][0], match[0][1], match[1][0], match[1][1])
+    i = 0   
+    result = [] 
+    previous_player = None
+    for player in standings:
+        if (i % 2) == 0:
+            previous_player = player
+        else:
+            pairing_tup = (previous_player[0], previous_player[1], player[0], player[1])
+            result.append(pairing_tup)
         i += 1
 
-    return swissPairs
+    return result
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
